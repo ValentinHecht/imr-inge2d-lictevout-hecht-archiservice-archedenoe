@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+             xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+    <persistence-unit name="ArcheService"
+                      transaction-type="RESOURCE_LOCAL">
+        <class>pierre.valentin.imt.ne.archedenoe.entity.Arche</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver"
+                      value="org.hsqldb.jdbcDriver" />
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:hsqldb:hsql://localhost/;create=true" />
+            <property name="javax.persistence.jdbc.user" value="archedenoe" />
+            <property name="javax.persistence.jdbc.password" value="" />
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="AnimauxService"
+                      transaction-type="RESOURCE_LOCAL">
+        <class>pierre.valentin.imt.ne.archedenoe.entity.Animaux</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver"
+                      value="org.hsqldb.jdbcDriver" />
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:hsqldb:hsql://localhost/;create=true" />
+            <property name="javax.persistence.jdbc.user" value="archedenoe" />
+            <property name="javax.persistence.jdbc.password" value="" />
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="archeBDD">
+        <description>Fichier de conf de la BDD</description>
+        <class>pierre.valentin.imt.ne.archedenoe.entity.Arche</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver" />
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:hsqldb:hsql://localhost/firstBDD;create=true" />
+            <property name="javax.persistence.jdbc.user" value="sa" />
+            <property name="javax.persistence.jdbc.password" value="" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <!-- <property name="hibernate.hbm2ddl.auto" value="update" /> -->
+        </properties>
+    </persistence-unit>
+
+</persistence>
