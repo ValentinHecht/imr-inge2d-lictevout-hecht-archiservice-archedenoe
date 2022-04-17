@@ -17,6 +17,11 @@
     background-color: green;
 }
 
+
+.admin__row-button--delete {
+    background-color: darkred;
+}
+
 .admin__title {
     text-align: center;
 }

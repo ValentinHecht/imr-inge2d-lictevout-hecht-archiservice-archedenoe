@@ -19,7 +19,7 @@ public class AnimauxResource {
     @Autowired
     private AnimauxRepository AnimauxRepository;
 
-    // Récupérer toutes les Animaux
+    // Récupérer tous les animaux
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Animaux> GetAllAnimaux(){
@@ -28,7 +28,7 @@ public class AnimauxResource {
         return AnimauxList;
     }
 
-    // Recupérer une Animaux en particulier
+    // Recupérer un animal en particulier
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,10 +40,9 @@ public class AnimauxResource {
         else{
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        // em.find(Employee.class, id); avec em = entity manager surement
     }
 
-    // Modifier un element dune Animaux
+    // Modifier un element d'un animal
     @PATCH
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -52,7 +51,7 @@ public class AnimauxResource {
         return "PUT" + id;
     }
 
-    // Modifier completement une Animaux
+    // Modifier completement un animal
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -62,7 +61,7 @@ public class AnimauxResource {
         return AnimauxRepository.save(a);
     }
 
-    // Ajouter une Animaux
+    // Ajouter un animal
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -71,7 +70,7 @@ public class AnimauxResource {
         return a.getId();
     }
 
-    // Supprimer une Animaux
+    // Supprimer un animal
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)

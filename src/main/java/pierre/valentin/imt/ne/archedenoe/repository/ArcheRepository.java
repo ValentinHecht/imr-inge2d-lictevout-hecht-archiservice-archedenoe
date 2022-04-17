@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 import pierre.valentin.imt.ne.archedenoe.entity.Arche;
 
 public interface ArcheRepository extends CrudRepository<Arche, Long> {
-    Arche getArcheById(int id);
+    Arche getArcheById(Long id);
 }

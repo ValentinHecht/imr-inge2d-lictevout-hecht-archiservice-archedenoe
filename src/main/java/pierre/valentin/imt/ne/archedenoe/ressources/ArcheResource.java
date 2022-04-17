@@ -2,6 +2,7 @@ package pierre.valentin.imt.ne.archedenoe.ressources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
+import javax.swing.text.html.Option;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -9,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import pierre.valentin.imt.ne.archedenoe.entity.Animaux;
 import pierre.valentin.imt.ne.archedenoe.entity.Arche;
 import pierre.valentin.imt.ne.archedenoe.repository.ArcheRepository;
+import pierre.valentin.imt.ne.archedenoe.repository.AnimauxRepository;
 
 
 @Path("arches")
@@ -19,6 +22,8 @@ import pierre.valentin.imt.ne.archedenoe.repository.ArcheRepository;
 public class ArcheResource {
     @Autowired
     private ArcheRepository archeRepository;
+    @Autowired
+    private AnimauxRepository animauxRepository;
 
     // Récupérer toutes les arches
     @GET
@@ -94,10 +99,6 @@ public class ArcheResource {
         return archeRepository.save(a);
     }
 
-    /*
-        D'apres le cours pour enregister une entité
-     */
-
     // Ajouter une arche
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -116,5 +117,36 @@ public class ArcheResource {
             archeRepository.deleteById(id);
         }
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("{id}/animaux")
+    @Produces(MediaType.APPLICATION_JSON)
+    // GET /arches/{id}/animaux
+    public List<Animaux> listerAnimaux(@PathParam("id") Long id) {
+        return archeRepository.findById(id).get().getAnimauxSet();
+    }
+
+    // Ajouter une arche
+    @POST
+    @Path("{idArche}/animaux")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response AddAnimalToArche(@PathParam("idArche") Long idArche, @RequestBody String animalId){
+        Long animal = Long.valueOf(animalId);
+
+        Optional<Arche> arche = archeRepository.findById(idArche);
+        Optional<Animaux> animalOptional = animauxRepository.findById(animal);
+
+        if(!arche.isPresent() || !animalOptional.isPresent()){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        Arche a = arche.get();
+        Animaux an = animalOptional.get();
+        a.getAnimauxSet().add(an);
+        archeRepository.save(a);
+
+        return Response.ok(a).build();
+
     }
 }

@@ -1,6 +1,7 @@
 package pierre.valentin.imt.ne.archedenoe.entity;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "arche")
@@ -28,6 +29,9 @@ public class Arche {
 
     @Column(name = "occupation")
     int occupation;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Animaux> animauxSet = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -59,5 +63,13 @@ public class Arche {
 
     public void setOccupation(int occupation) {
         this.occupation = occupation;
+    }
+
+    public List<Animaux> getAnimauxSet() {
+        return animauxSet;
+    }
+
+    public void setAnimauxSet(List<Animaux> animauxSet) {
+        this.animauxSet = animauxSet;
     }
 }

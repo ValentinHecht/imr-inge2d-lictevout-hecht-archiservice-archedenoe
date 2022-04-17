@@ -26,34 +26,40 @@
             <div class="admin__object-type">Animaux</div>
         </div>
     </div>
-    <form class="form__arche">
-        <h3>Nouvelle arche : </h3>
-        Nom: <input type="text" name="nom" id="name-arche-input">
-        Capacite: <input type="number" name="capacite" id="capacite-arche-input">
-        <input type="button" id="form__button-arche" name="addbtn" value="Ajouter" class="admin__row-button admin__row-button--add" />
-    </form>
-    <form class="form__animal">
-        <h3>Nouvel animal : </h3>
-        Race: <input type="text" name="nom" id="name-animal-input">
-        Capacite: <input type="number" name="capacite" id="nbpatte-animal-input">
-        Place: <input type="number" name="capacite" id="place-animal-input">
-        <input type="button" id="form__button-animal" name="addbtn" value="Ajouter" class="admin__row-button admin__row-button--add" />
-    </form>
+    <div class="admin__row">
+        <form class="form__arche">
+            <h3>Nouvelle arche : </h3>
+            Nom: <input type="text" name="nom" id="name-arche-input">
+            Capacite: <input type="number" name="capacite" id="capacite-arche-input">
+            <input type="button" id="form__button-arche" name="addbtn" value="Ajouter" class="admin__row-button admin__row-button--add" />
+        </form>
+        <form class="form__animal">
+            <h3>Nouvel animal : </h3>
+            Race: <input type="text" name="nom" id="race-animal-input">
+            Nombre de patte: <input type="number" name="capacite" id="nbpatte-animal-input">
+            Place que prend l'animal: <input type="number" name="place" id="place-animal-input">
+            A t il déjà une place dans une arche ? (indiquer l'id): <input type="number" name="arche-animal" id="arche-animal-input">
+            <input type="button" id="form__button-animal" name="addbtn" value="Ajouter" class="admin__row-button admin__row-button--add" />
+        </form>
+    </div>
     <script>
         $.get("http://192.168.0.14:8080/api/arches", function(data) {
             $.each(data, function(index, value) {
-               $(".admin__arche").append("<div class=\"admin__object-attribute\">Id: " + value.id + "</div>")
+               $(".admin__arche").append(`<div id="${value.id}" class="admin__object-attribute">Id: ${value.id} </div>`)
                $(".admin__arche").append("<div class=\"admin__object-attribute\"> Nom: " + value.nom + "</div>")
                $(".admin__arche").append("<div class=\"admin__object-attribute\">Capacite: " + value.capacite + "</div>")
                $(".admin__arche").append("<div class=\"admin__object-attribute\">Occupation: " + value.occupation + "</div>")
+               $(".admin__arche").append(`<button class="admin__row-button admin__row-button--delete" onclick="deleteArche(${value.id})" id="${value.id}">Supprimer cette entité</button>`)
             });
         });
         $.get("http://192.168.0.14:8080/api/animaux", function(data) {
             $.each(data, function(index, value) {
                $(".admin__animaux").append("<div class=\"admin__object-attribute\">Id: " + value.id + "</div>")
                $(".admin__animaux").append("<div class=\"admin__object-attribute\">Race: " + value.race + "</div>")
-               $(".admin__animaux").append("<div class=\"admin__object-attribute\">Nombre de pattes: " + value.nb_patte + "</div>")
-               $(".admin__animaux").append("<div class=\"admin__object-attribute\">Place que prend l'animal: " + value.place + "</div>")
+               $(".admin__animaux").append("<div class=\"admin__object-attribute\">Nombre de pattes: " + value.nbPatte + "</div>")
+               $(".admin__animaux").append("<div class=\"admin__object-attribute\">Place que prend l'animal dans son arche: " + value.place + "</div>")
+               $(".admin__animaux").append(`<button class="admin__row-button admin__row-button--delete" onclick="deleteAnimal(${value.id})" id="${value.id}">Supprimer cette entité</button>`)
+
             });
         });
 
@@ -77,7 +83,75 @@
             return false;
         });
 
+        $('#form__button-animal').click(function(){
+            let race = $('#race-animal-input').val();
+            let nbpattes = $('#nbpatte-animal-input').val();
+            let place = $('#place-animal-input').val();
+            let arche = $('#arche-animal-input').val();
 
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.0.14:8080/api/animaux",
+                data: JSON.stringify({ "race": race, "nbPatte": nbpattes, "place": place, "arche_id": arche}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                    console.log(data);
+                    addAnimalToArche(data, arche)
+                    window.alert("Animal créée avec les données: race: " + race +" nbPatte: " + nbpattes + " place: " + place);
+                }
+            });
+            $('#capacite-arche-input').val('');
+            $('#name-arche-input').val('');
+            return false;
+        });
+
+        function deleteArche(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "http://192.168.0.14:8080/api/arches/" + id,
+                dateType: "json",
+                succes: function (data) {
+                    if (data.success) {
+                        window.alert("Removed entity Arche with " + id + " from database");
+                        setInterval(function(){
+                            location.reload(true);
+                        }, 500);
+                    }
+                },
+                error: function () {
+                    window.alert("Could not remove entity Arche with id " + id + " from database");
+                }
+            })
+        }
+
+        function deleteAnimal(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "http://192.168.0.14:8080/api/animaux/" + id,
+                dateType: "json",
+                succes: function () {
+                    window.alert("Removed entity Animal with " + id + " from database");
+                },
+                error: function () {
+                    window.alert("Could not remove entity Arche with id " + id + " from database");
+                }
+            })
+        }
+
+        function addAnimalToArche(idAnimal, idArche) {
+            console.log(idArche, idAnimal);
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.0.14:8080/api/arches/"+idArche+"/animaux",
+                data: JSON.stringify(idAnimal),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                    // appendToListPersonne(data);
+                }
+            });
+        }
     </script>
 
 </div>
