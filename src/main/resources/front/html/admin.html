@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Page admin</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="admin">
+    <div class="admin__title">
+        <h1 class="admin__title-text">
+            Page admin
+        </h1>
+    </div>
+    <div class="admin__row">
+    </div>
+
+    <div class="admin__row">
+        <div class="admin__object admin__arche">
+            <div class="admin__object-type">Arche</div>
+        </div>
+        <div class="admin__object admin__animaux">
+            <div class="admin__object-type">Animaux</div>
+        </div>
+    </div>
+    <form class="form__arche">
+        <h3>Nouvelle arche : </h3>
+        Nom: <input type="text" name="nom" id="name-arche-input">
+        Capacite: <input type="number" name="capacite" id="capacite-arche-input">
+        <input type="button" id="form__button-arche" name="addbtn" value="Ajouter" class="admin__row-button admin__row-button--add" />
+    </form>
+    <form class="form__animal">
+        <h3>Nouvel animal : </h3>
+        Race: <input type="text" name="nom" id="name-animal-input">
+        Capacite: <input type="number" name="capacite" id="nbpatte-animal-input">
+        Place: <input type="number" name="capacite" id="place-animal-input">
+        <input type="button" id="form__button-animal" name="addbtn" value="Ajouter" class="admin__row-button admin__row-button--add" />
+    </form>
+    <script>
+        $.get("http://192.168.0.14:8080/api/arches", function(data) {
+            $.each(data, function(index, value) {
+               $(".admin__arche").append("<div class=\"admin__object-attribute\">Id: " + value.id + "</div>")
+               $(".admin__arche").append("<div class=\"admin__object-attribute\"> Nom: " + value.nom + "</div>")
+               $(".admin__arche").append("<div class=\"admin__object-attribute\">Capacite: " + value.capacite + "</div>")
+               $(".admin__arche").append("<div class=\"admin__object-attribute\">Occupation: " + value.occupation + "</div>")
+            });
+        });
+        $.get("http://192.168.0.14:8080/api/animaux", function(data) {
+            $.each(data, function(index, value) {
+               $(".admin__animaux").append("<div class=\"admin__object-attribute\">Id: " + value.id + "</div>")
+               $(".admin__animaux").append("<div class=\"admin__object-attribute\">Race: " + value.race + "</div>")
+               $(".admin__animaux").append("<div class=\"admin__object-attribute\">Nombre de pattes: " + value.nb_patte + "</div>")
+               $(".admin__animaux").append("<div class=\"admin__object-attribute\">Place que prend l'animal: " + value.place + "</div>")
+            });
+        });
+
+        $('#form__button-arche').click(function(){
+            let nom = $('#name-arche-input').val();
+            let capacite = $('#capacite-arche-input').val();
+
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.0.14:8080/api/arches",
+                data: JSON.stringify({ "nom": nom, "capacite": capacite, occupation: 0 }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                    console.log("Arche créée avec les données" + data);
+                }
+            });
+
+            $('#capacite-arche-input').val('');
+            $('#name-arche-input').val('');
+            return false;
+        });
+
+
+    </script>
+
+</div>
+
+</body>
+</html>

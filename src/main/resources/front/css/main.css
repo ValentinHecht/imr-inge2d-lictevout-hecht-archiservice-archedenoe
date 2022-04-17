@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    font-family: arial, fantasy;
+}
+
+.main {
+    background-color: deepskyblue;
+}
+
+.main__clouds {
+    color: darkgrey;
+    background-color: lightgray;
+    width: 100%;
+    height: 30vh;
+}
+
+.main__sky {
+    width: 100%;
+    height: 40vh;
+}
+
+.main__sea {
+    color: darkslateblue;
+    position: sticky;
+    background-color: darkblue;
+    height: 30vh;
+}
+
+.main__arche {
+    display: flex;
+    position: relative;
+    top: 150px;
+    z-index: 1;
+    animation-name: moveboat;
+    animation-delay: 3s;
+    -webkit-animation-name: moveboat;
+    -webkit-animation-delay: 3s;
+}
+
+.main__arche-image {
+    width: 250px;
+    height: 150px;
+}
+
+@-webkit-keyframes moveboat {
+    from {
+        justify-content: flex-start;
+    }
+    to {
+        justify-content: flex-end;
+    }
+}
+@keyframes moveboat {
+    from {
+        justify-content: flex-start;
+    }
+    to {
+        justify-content: flex-end;
+    }
+
+}
+
+.main__button {
+    display: flex;
+    justify-content: center;
+    transform: translate(0, 50px);
+    animation: pulse 1s;
+    box-shadow: 0 0 0 2em transparent;
+}
+
+
+.main__button-link {
+    padding: 15px 50px;
+    background-color: brown;
+    border-radius: 15px;
+    text-decoration: none;
+    color: white;
+    transition: box-shadow ease-in-out 0.2s;
+}
+
+.main__button-link:hover {
+    box-shadow: 0 5px 10px saddlebrown;
+}
+
+.main__text {
+    color: dodgerblue;
+    padding-top: 150px;
+}

@@ -7,6 +7,17 @@ import java.io.Serializable;
 @Entity
 @Table(name = "animaux")
 public class Animaux {
+    public Animaux(){
+        super();
+    }
+
+    public Animaux(String race, Long nbPatte, int place) {
+        super();
+        this.race = race;
+        this.nbPatte = nbPatte;
+        this.place = place;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -14,8 +25,8 @@ public class Animaux {
     @Column(name = "race", nullable = false)
     private String race;
 
-    @Column(name = "nb_patte", nullable = false)
-    private int nbPatte;
+    @Column(name = "nbPatte", nullable = false)
+    private Long nbPatte;
 
     @Column(name = "place", nullable = false)
     private int place;
@@ -24,7 +35,7 @@ public class Animaux {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,11 +47,11 @@ public class Animaux {
         this.race = race;
     }
 
-    public int getNbPatte() {
+    public Long getNbPatte() {
         return nbPatte;
     }
 
-    public void setNbPatte(int nbPatte) {
+    public void setNbPatte(Long nbPatte) {
         this.nbPatte = nbPatte;
     }
 

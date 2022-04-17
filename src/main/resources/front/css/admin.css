@@ -1,0 +1,39 @@
+.admin__row {
+    padding-left: 40px;
+    padding-bottom: 5px;
+    margin: 0 10px 20px 10px;
+    color: brown;
+    border-bottom: 1px solid brown;
+}
+
+.admin__row-button {
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.admin__row-button--add {
+    background-color: green;
+}
+
+.admin__title {
+    text-align: center;
+}
+
+.admin__title-text {
+    color: brown;
+}
+
+.admin__object {
+}
+
+.admin__object-type {
+    font-size: 16px;
+    font-weight: bold;
+    color: brown;
+}
+
+.admin__object-attribute {
+    padding-left: 25px;
+}
