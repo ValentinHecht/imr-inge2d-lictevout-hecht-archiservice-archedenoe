@@ -44,14 +44,17 @@ Se placer à la racine du repo Git et taper la commande :
     et un front rien de plus classique : HTML, CSS et jQuery.
 
 ### - Fonctionnement global :
-
+```plantuml
 @startuml
+
 User -> Front: Interact with button, fields
 Front -> Back: REST API Calls to fetch, modify and delete data
 Back -> Repository: Interface java langauge and database
 Repository -> Back: Return data
 Back -> Front: Format data
+
 @enduml
+```
 
 ### - Structure du code :
 
